@@ -27,7 +27,7 @@
 
 　次に、Tiny85に必要なスケッチを書き込んでいきます。最初に、`ファイル > スケッチ例 > 11.ArduinoISP > ArduinoISP `を選択しISP用のArduinoUNOに書き込んでおきます。
 　Tiny85とArduinoUNOを次のように結線し、ArduinoUNO側をPCと接続します。
-![画像2](etc/pcb_isp.bmp)
+![画像2](etc/pcb_isp.png)
 
 　Tiny85の設定を行います。`ツール > ボード > ATtinyX5_WireNode`を選択します。それ以外の設定はそのままでよいです。書き込み装置を `Arduino as ISP` に設定し、シリアルポートの状態を確認して、`ブートローダを書き込む` を押して書き込みが終わるのを待てば設定は完了です。なお、ブートローダの書き込みは一度行ったものであれば再度行う必要はありません。
 ![画像3](etc/board_setting.jpg)
