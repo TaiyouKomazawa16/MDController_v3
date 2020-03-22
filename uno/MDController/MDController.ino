@@ -76,7 +76,7 @@ void md_setup()
 void IDD_setup()
 {
   while (!soft_qei.begin()) { //スレーブが立ち上がるまで待機
-    Serial.println(F("wait connection for IDDs..."));
+    Serial.println(F("Wait connection for IncrementalDecoders..."));
     delay(1000);
   }
   for (int i = 0; i < soft_qei.get_slave_num(); i++) {
@@ -84,11 +84,11 @@ void IDD_setup()
   }
 
   IDD_num = soft_qei.get_slave_num();
-  Serial.print(F("found IDDs : "));
+  Serial.print(F("Found IncrementalDecoders:"));
   Serial.print(IDD_num);
   Serial.print(F("/"));
   Serial.println(IDD_MAX_NUM_DEFAULT);
-  if (IDD_num != IDD_MAX_NUM_DEFAULT) Serial.println(F("Warning :Insufficient number of IDD!"));
+  if (IDD_num != IDD_MAX_NUM_DEFAULT) Serial.println(F("Warning:Insufficient number of IncrementalDecoder."));
 }
 
 void server_init()
@@ -132,13 +132,13 @@ void sys_setup()
   delete_conf();
   server_begin();
   digitalWrite(LED_BUILTIN, LOW);
-  Serial.println(F("ping pong node sub address is 0x00"));
+  Serial.println(F("Ping pong node sub address is 0x00"));
   Serial.print(F("md node(0x1X) total = "));
   Serial.println(MD_MAX_NUM);
   Serial.print(F("qei node(0x2X) total = "));
   Serial.println(IDD_num);
   Serial.print(F("pid node(0x3X) total = "));
   Serial.println(IDD_num);
-  Serial.print(F("server start running."));
+  Serial.print(F("Server start running."));
   Serial.println(F("\n"));
 }
