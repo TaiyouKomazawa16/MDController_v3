@@ -121,7 +121,10 @@ private:
         int sub_addr = 0;
         if (frame_size > 0 && frame_size < BUFFER_SIZE) {
             sub_addr = Wire.read();
-            for(int i = 0; _cb[i] != NULL; i++) {
+            for(int i = 0; i < CB_MAX_NUM; i++) {
+                if(_cb[i] == NULL) {
+                    continue;
+                }
                 if (_cb[i]->_sub_addr == sub_addr) {
                     _cb[i]->_onReceiveCb(frame_size - 1, _cb[i]);
                     break;
@@ -133,7 +136,10 @@ private:
     static void _onRequest_task()
     {
         uint8_t data[BUFFER_SIZE] = {};
-        for(int i = 0; _cb[i] != NULL; i++) {
+        for(int i = 0; i < CB_MAX_NUM; i++) {
+            if(_cb[i] == NULL) {
+                    continue;
+            }
             if (_cb[i]->_mode == I2CSlaveNode::Response) {
                 int frame_size = 2;
                 data[0] = _cb[i]->_sub_addr;

@@ -106,12 +106,14 @@ void server_init()
 void server_begin()
 {
   testnode.begin(&server);
+  nqei.begin(&server);
   for (int i = 0; i < MD_MAX_NUM; i++) {
     nmd[i]->begin(&server);
     if (i < IDD_num) {
       npid[i]->begin(&server, md[i], &nqei, i);
     }
   }
+  
 
   testnode.set_total_nodes(server.get_node_num());
   server.begin(i2c_addr);
