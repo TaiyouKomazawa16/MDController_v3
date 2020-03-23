@@ -10,7 +10,7 @@ class MDNode : public I2CSlaveNode
 {
 
     /* data(3byte): | duty(255 ~ 0)| direction(bool(0 or other))| deadtime(255ms~0ms)| */
-    virtual void _res_cb(uint8_t* data, int &len)
+    virtual inline void _res_cb(uint8_t* data, int &len)
     {
         if (len >= 3) {
             _pwm = ((uint8_t)data[0]) * ((data[1])  ? 1 : -1);
@@ -20,7 +20,7 @@ class MDNode : public I2CSlaveNode
     }
 
     /* data(3byte): | duty(255 ~ 0)| direction(bool(0 or other))| deadtime(255ms~0ms)| */
-    virtual void _req_cb(uint8_t* data, int &len)
+    virtual inline void _req_cb(uint8_t* data, int &len)
     {
         len = 3;
         data[0] = abs(_pwm) & 0xFF;

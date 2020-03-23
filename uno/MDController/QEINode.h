@@ -44,7 +44,7 @@ private:
 
 
         /* data(4byte): | (int32_t) count| */
-        virtual void _res_cb(uint8_t* data, int &len)
+        virtual inline void _res_cb(uint8_t* data, int &len)
         {
             if (len >= 4) {
                 int32_t count = data[0] | (int32_t)data[1] << 8 | (int32_t)data[2] << 16 | (int32_t)data[3] << 24;
@@ -53,7 +53,7 @@ private:
         }
 
         /* data(8byte): | (uint32_t)now microSec| (int32_t)now count| */
-        virtual void _req_cb(uint8_t* data, int &len)
+        virtual inline void _req_cb(uint8_t* data, int &len)
         {
             len = 8;
             uint32_t nowTime = millis() - _initTime;

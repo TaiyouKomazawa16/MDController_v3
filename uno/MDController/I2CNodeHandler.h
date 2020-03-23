@@ -18,8 +18,8 @@ public:
         Response      ,
     } frame_mode_t;
 
-    virtual void _res_cb(uint8_t*, int &) = 0;
-    virtual void _req_cb(uint8_t*, int &) = 0;
+    virtual inline void _res_cb(uint8_t*, int &) = 0;
+    virtual inline void _req_cb(uint8_t*, int &) = 0;
 
     I2CSlaveNode(uint8_t sub_addr)
       : _sub_addr(sub_addr)
