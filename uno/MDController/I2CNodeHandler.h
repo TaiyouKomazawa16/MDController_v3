@@ -38,20 +38,20 @@ public:
         int _data_size = data_size - 1;
         
         if (_data_size >= 0 && _data_size < BUFFER_SIZE) {
-            int i = 0;
-            for (; i < _data_size; i++) {
+            for (uint8_t i= 0; i < _data_size; i++) {
                 node->_data[i] = Wire.read();
             }
 
             switch(mode) {
                 case Receive :
-                    if(node->_mode != Response) {
-                        node->_mode = mode;
-                        node->_res_cb(node->_data, _data_size);
-                    }
+                    node->_mode = mode;
+                    node->_res_cb(node->_data, _data_size);
                 break;
                 case Request :
                     node->_mode = Response;
+                break;
+                case Standby :
+                    node->_mode = Standby;
                 break;
                 default :
                 //nop
@@ -62,17 +62,17 @@ public:
 
     static int _onRequestCb(uint8_t* data, I2CSlaveNode *node)
     {
-        node->_mode = Standby;
         int data_size = 0;
         node->_req_cb(data, data_size);
+        node->_mode = Standby;
         if(data_size <= BUFFER_SIZE - 1)
             return data_size;
         else
             return BUFFER_SIZE - 1;  
     }
 
-    uint8_t _sub_addr;
-    frame_mode_t _mode;
+    const uint8_t _sub_addr;
+    volatile frame_mode_t _mode;
     uint8_t _data[BUFFER_SIZE];
 };
 
@@ -118,10 +118,10 @@ public:
 private:
     static void _onReceive_task(int frame_size)
     {   
-        int sub_addr = 0;
+        uint8_t sub_addr = 0;
         if (frame_size > 0 && frame_size < BUFFER_SIZE) {
             sub_addr = Wire.read();
-            for(int i = 0; i < CB_MAX_NUM; i++) {
+            for(uint8_t i = 0; i < CB_MAX_NUM; i++) {
                 if(_cb[i] == NULL) {
                     continue;
                 }
@@ -136,12 +136,12 @@ private:
     static void _onRequest_task()
     {
         uint8_t data[BUFFER_SIZE] = {};
-        for(int i = 0; i < CB_MAX_NUM; i++) {
+        for(uint8_t i = 0; i < CB_MAX_NUM; i++) {
             if(_cb[i] == NULL) {
                     continue;
             }
             if (_cb[i]->_mode == I2CSlaveNode::Response) {
-                int frame_size = 2;
+                uint8_t frame_size = 2;
                 data[0] = _cb[i]->_sub_addr;
                 data[1] = (uint8_t)_cb[i]->_mode;
                 frame_size += _cb[i]->_onRequestCb(data + 2, _cb[i]);
