@@ -7,9 +7,9 @@
 
 ## 概要
 
-- [uno/MDController](uno/MDController) ArduinoUNOに対応したプロジェクト。中核として、4つのモータドライバと4つのQEIデバイスの制御を行いI2Cにてホストと通信を行う部分を担当する。
+- [uno/MDController](uno/MDController) ArduinoUNOに対応したプロジェクトです。中核として、4つのモータドライバと4つのQEIデバイスの制御を行いI2Cにてホストと通信を行う部分を担当します。
 
-- [tiny85/IncrementalDecoder](tiny85/IncrementalDecoder) Tiny85に対応したプロジェクト。1つのICにつき1つのロータリーエンコーダの運用が可能です。フォルダ内には4つ分のI2Cアドレスがそれぞれ固定済みのプロジェクトが入っています。atTiny85用のビルドには外部提供のブートローダ[SpenceKonde/ATTinyCore](https://github.com/SpenceKonde/ATTinyCore)を改造して用いています。[hardware](hardware)下に配置済み。
+- [tiny85/IncrementalDecoder](tiny85/IncrementalDecoder) Tiny85に対応したプロジェクトです。1つのICにつき1つのロータリーエンコーダの運用が可能です。atTiny85用のビルドには外部提供のブートローダ[SpenceKonde/ATTinyCore](https://github.com/SpenceKonde/ATTinyCore)を改造して用いています。ブートローダに関しましては[hardware](hardware)下に配置済みです。
 
 ## 必要な環境
 
