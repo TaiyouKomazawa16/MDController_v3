@@ -75,16 +75,18 @@ private:
 
         float pps;
     private:
-        IDD *_qei;
         uint8_t _id;
+        IDD *_qei;
+        
         const uint32_t _initTime;
         int32_t _prev_count;
         uint32_t _prevTime;
     };
     
     uint8_t _sub_addr_begin;
-    QEINode_ *_node[IDD_MAX_NUM];
     IDD *_qei;
+    
+    QEINode_ *_node[IDD_MAX_NUM];
 };
 
 #endif

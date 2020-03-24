@@ -18,8 +18,8 @@ public:
         Response      ,
     } frame_mode_t;
 
-    virtual inline void _res_cb(uint8_t*, uint8_t &) = 0;
-    virtual inline void _req_cb(uint8_t*, uint8_t &) = 0;
+    virtual inline void _res_cb(uint8_t*, uint8_t &) {};
+    virtual inline void _req_cb(uint8_t*, uint8_t &) {};
 
     I2CSlaveNode(uint8_t sub_addr)
       : _sub_addr(sub_addr)
@@ -84,7 +84,7 @@ private:
 public:
     I2CNodeHandler(){}
 
-    void begin(uint8_t my_addr, int bus_frequency = 100000)
+    void begin(uint8_t my_addr, uint32_t bus_frequency = 100000)
     {
         Wire.begin(my_addr);
         Wire.setClock(bus_frequency);

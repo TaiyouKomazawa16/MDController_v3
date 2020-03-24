@@ -25,9 +25,9 @@ public:
         _master->begin();
     }
 
-    virtual void frequency(int hz)
+    virtual void frequency(long hz)
     {
-        hz;
+        _master->setClock(hz);
     }
     virtual int write(int address_7bit, const char *data, const int length, bool repeated = false)
     {
