@@ -18,8 +18,8 @@ public:
         Response      ,
     } frame_mode_t;
 
-    virtual inline void _res_cb(uint8_t*, int &) = 0;
-    virtual inline void _req_cb(uint8_t*, int &) = 0;
+    virtual inline void _res_cb(uint8_t*, uint8_t &) = 0;
+    virtual inline void _req_cb(uint8_t*, uint8_t &) = 0;
 
     I2CSlaveNode(uint8_t sub_addr)
       : _sub_addr(sub_addr)
@@ -35,7 +35,7 @@ public:
     static void _onReceiveCb(const int data_size, I2CSlaveNode *node)
     {  
         frame_mode_t mode = (frame_mode_t)Wire.read();
-        int _data_size = data_size - 1;
+        uint8_t _data_size = data_size - 1;
         
         if (_data_size >= 0 && _data_size < BUFFER_SIZE) {
             for (uint8_t i= 0; i < _data_size; i++) {
@@ -62,7 +62,7 @@ public:
 
     static int _onRequestCb(uint8_t* data, I2CSlaveNode *node)
     {
-        int data_size = 0;
+        uint8_t data_size = 0;
         node->_req_cb(data, data_size);
         node->_mode = Standby;
         if(data_size <= BUFFER_SIZE - 1)
@@ -141,11 +141,9 @@ private:
                     continue;
             }
             if (_cb[i]->_mode == I2CSlaveNode::Response) {
-                uint8_t frame_size = 2;
                 data[0] = _cb[i]->_sub_addr;
                 data[1] = (uint8_t)_cb[i]->_mode;
-                frame_size += _cb[i]->_onRequestCb(data + 2, _cb[i]);
-                Wire.write(data, frame_size);
+                Wire.write(data, _cb[i]->_onRequestCb(data + 2, _cb[i]) + 2);
                 break;
             }
         }
