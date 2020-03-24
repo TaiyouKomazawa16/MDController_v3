@@ -11,7 +11,7 @@ class HardWareI2CMaster : protected TwoWire, public I2CMaster
 {
 public:
 
-    HardWareI2CMaster(int hz = 100000)
+    HardWareI2CMaster(long hz = 100000)
     {
         begin();
         frequency(hz);

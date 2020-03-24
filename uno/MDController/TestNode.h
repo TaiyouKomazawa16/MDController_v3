@@ -7,13 +7,15 @@
 
 class TestNode : public I2CSlaveNode
 {
-    virtual inline void _res_cb(uint8_t* data, int &len)
+    virtual inline void _res_cb(uint8_t* data, uint8_t &len)
     {
-        Serial.println("Test message :" + String((char*)data));
+        if(len < BUFFER_SIZE - 2) {
+            Serial.println("Test message :" + String((char*)data));
+        }
     }
 
     /* data(2byte): | pong(bool = 0xFF)| total nodes(0~255)| */
-    virtual inline void _req_cb(uint8_t* data, int &len)
+    virtual inline void _req_cb(uint8_t* data, uint8_t &len)
     {
         len = 3;
         data[0] = 0xFF;

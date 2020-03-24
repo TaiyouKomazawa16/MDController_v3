@@ -5,6 +5,8 @@
 
 #define INR16MAX    32767
 
+#define I2C_FREQ 100000
+
 #include "PinDefs.h"
 
 #include <MotorDriver.h>
@@ -50,18 +52,22 @@ void sys_setup();
 
 void setup()
 {
+  noInterrupts();
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(9600);
   delay(100);
   config_mode(CONF_M_PIN);
   sys_setup();
+  interrupts();
 }
 
 void loop()
 {
-  static bool led;
-  digitalWrite(LED_BUILTIN, led = !led); //normal mode
-  delay(700);
+  while(1) {
+    static bool led;
+    digitalWrite(LED_BUILTIN, led = !led); //normal mode
+    delay(700);
+  }
 }
 
 
@@ -116,7 +122,7 @@ void server_begin()
   
 
   testnode.set_total_nodes(server.get_node_num());
-  server.begin(i2c_addr);
+  server.begin(i2c_addr, I2C_FREQ);
 }
 
 void sys_setup()

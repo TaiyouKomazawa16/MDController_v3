@@ -43,7 +43,7 @@ class PIDNode : public I2CSlaveNode, public FastPID
 {
 
     /* data(5byte): | pid stop(bool)| target pps(float 32bit)| */
-    virtual inline void _res_cb(uint8_t* data, int &len)
+    virtual inline void _res_cb(uint8_t* data, uint8_t &len)
     {
         if(len == 5){
             bool stop = (bool)data[0];
@@ -70,7 +70,7 @@ class PIDNode : public I2CSlaveNode, public FastPID
     }
 
     /* data(6byte): | now target pps(float 32bit)| now duty(255 ~ 0)| direction(bool(0 or other))|*/
-    virtual inline void _req_cb(uint8_t* data, int &len)
+    virtual inline void _req_cb(uint8_t* data, uint8_t &len)
     {
         len = 6;
         float pps_in = _pps_in;

@@ -10,7 +10,7 @@ class MDNode : public I2CSlaveNode
 {
 
     /* data(3byte): | duty(255 ~ 0)| direction(bool(0 or other))| deadtime(255ms~0ms)| */
-    virtual inline void _res_cb(uint8_t* data, int &len)
+    virtual inline void _res_cb(uint8_t* data, uint8_t &len)
     {
         if (len >= 3) {
             _pwm = ((uint8_t)data[0]) * ((data[1])  ? 1 : -1);
@@ -20,7 +20,7 @@ class MDNode : public I2CSlaveNode
     }
 
     /* data(3byte): | duty(255 ~ 0)| direction(bool(0 or other))| deadtime(255ms~0ms)| */
-    virtual inline void _req_cb(uint8_t* data, int &len)
+    virtual inline void _req_cb(uint8_t* data, uint8_t &len)
     {
         len = 3;
         data[0] = abs(_pwm) & 0xFF;
@@ -30,10 +30,8 @@ class MDNode : public I2CSlaveNode
 
 public:
     MDNode(uint8_t sub_addr, MotorDriver *md, uint8_t deadtime_ms = 0)
-    : I2CSlaveNode(sub_addr), _md(md), _deadtime_ms(deadtime_ms)
-    {
-        _pwm = 0;
-    }
+    : I2CSlaveNode(sub_addr), _md(md), _deadtime_ms(deadtime_ms), _pwm(0)
+    {}
 
     void begin(I2CNodeHandler *server)
     {
@@ -41,11 +39,10 @@ public:
     }
 
 private:
-
+    MotorDriver *_md;
+    
     uint8_t _deadtime_ms;
     int16_t _pwm;
-
-    MotorDriver *_md;
 };
 
 #endif
