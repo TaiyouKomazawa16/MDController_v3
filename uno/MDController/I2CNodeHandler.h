@@ -16,6 +16,7 @@ public:
         Receive       ,
         Request       ,
         Response      ,
+        NullFrame =255,
     } frame_mode_t;
 
     virtual inline void _res_cb(uint8_t*, uint8_t &) {};
@@ -64,7 +65,6 @@ public:
     {
         uint8_t data_size = 0;
         node->_req_cb(data, data_size);
-        node->_mode = Standby;
         if(data_size <= BUFFER_SIZE - 1)
             return data_size;
         else
@@ -143,10 +143,14 @@ private:
             if (_cb[i]->_mode == I2CSlaveNode::Response) {
                 data[0] = _cb[i]->_sub_addr;
                 data[1] = (uint8_t)_cb[i]->_mode;
-                Wire.write(data, _cb[i]->_onRequestCb(data + 2, _cb[i]) + 2);
-                break;
+                if(Wire.write(data, _cb[i]->_onRequestCb(data + 2, _cb[i]) + 2))
+                    _cb[i]->_mode = I2CSlaveNode::Standby;
+                return; //Communication success!
             }
         }
+        data[0] = 0;
+        data[1] = I2CSlaveNode::NullFrame;
+        Wire.write(data, 2);
     }
 };
 
