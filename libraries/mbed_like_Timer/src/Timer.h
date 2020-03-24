@@ -15,7 +15,7 @@ typedef uint64_t us_timestamp_t;
 
 class Timer {
   public :
-    Timer() : _running(), _start(), _time(), _last_micros(micros()), _total_micros(micros())
+    Timer() :  _running(), _start(), _time(), _total_micros(micros()), _last_micros(micros())
     {
       reset();
     }
@@ -37,9 +37,9 @@ class Timer {
 
     us_timestamp_t _slicetime();
 
-    volatile unsigned long _last_micros;
     int _running;
     us_timestamp_t _start, _time, _total_micros;
+    volatile unsigned long _last_micros;
 };
 
 

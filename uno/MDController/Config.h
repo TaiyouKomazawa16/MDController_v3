@@ -79,7 +79,7 @@ void config_mode(uint8_t mode_toggle_pin)
 void reset_all()
 {
   Serial.println(F("EEPROM reseting of all. please wait!"));
-  for (int i = 0 ; i < EEPROM.length() ; i++) {
+  for (uint16_t i = 0 ; i < EEPROM.length() ; i++) {
     EEPROM.update(i, 0);
   }
   Serial.println(F("EEPROM is all reset success."));

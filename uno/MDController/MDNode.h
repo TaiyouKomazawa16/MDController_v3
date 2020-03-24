@@ -30,10 +30,8 @@ class MDNode : public I2CSlaveNode
 
 public:
     MDNode(uint8_t sub_addr, MotorDriver *md, uint8_t deadtime_ms = 0)
-    : I2CSlaveNode(sub_addr), _md(md), _deadtime_ms(deadtime_ms)
-    {
-        _pwm = 0;
-    }
+    : I2CSlaveNode(sub_addr), _md(md), _deadtime_ms(deadtime_ms), _pwm(0)
+    {}
 
     void begin(I2CNodeHandler *server)
     {
@@ -41,11 +39,10 @@ public:
     }
 
 private:
-
+    MotorDriver *_md;
+    
     uint8_t _deadtime_ms;
     int16_t _pwm;
-
-    MotorDriver *_md;
 };
 
 #endif
